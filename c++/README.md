@@ -66,3 +66,52 @@
 	// 在这里，首先把 count 赋值为 19，把 incr 赋值为 10，然后把 count 加 1，最后，把最右边表达式 count+1
 	//的计算结果 20 赋给 var。上面表达式中的括号是必需的，因为逗号运算符的优先级低于赋值操作符。
 	```
+* #### cctype
+	* #### `isalpha()` <font size=2>判断是否为字母</font>
+	* #### `ispunct()` <font size=2>判断是否为数字</font>
+* 三目运算符
+	* ?:
+	```c++
+	std::cout << (2 > 3 ? 10 : 19) << std::endl;
+		//   2 比3 小,所以为true 返回19
+	```
+* 函数指针
+	*  声明一个函数指针
+	```c++
+	double *(*pr)(int); // pr 为函数的地址
+	const double *f1(const double ar[] ,int n);
+	// 下面为实例
+	#include<iostream>
+	using namespace std;
+	const double *f1(const double ar[] ,int n);
+	const double *f2(const double [] ,int n);
+	const double *f3(const double * ,int n);
+
+	int main(int argc,char *argv[])
+	{
+		const double *(*p1)(const double *,int) = f1;
+		const double av[3] {1,2,3};
+		cout << (*p1)(av,3) << " : " << *(*p1)(av,3) << endl;
+		auto pd = f2;
+		cout << pd(av,3) << " : " << *pd(av,3) <<  endl;
+		return 0;
+	}
+
+	const double *f1(const double ar[] ,int n)
+	{
+		return ar;
+	}
+	const double *f2(const double ar[] ,int n)
+	{
+		return ar+1;
+	}
+	const double *f3(const double *ar ,int n)
+	{
+		return ar+2;
+	}
+
+
+	```
+
+* 内敛函数
+	* 
