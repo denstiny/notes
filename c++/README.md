@@ -114,4 +114,64 @@
 	```
 
 * 内敛函数
-	* 
+	* 运行过程
+	* ![demo](./src/nei.png)
+	* 内敛函数编译时会把函数替换成函数的副本代码，当调用多次的时候，会生成多个副本造成内存负担，适当选择使用,即使它速度很快
+	* `inline` 标识内敛函数
+	```c
+	inline double prins(double num)
+	{
+		std::cout << "hello wrold" << num << std::endl;
+	   return 0;
+	}
+	// 像这段代码，如果在main函数中调用则编译完成之后实际上是这样的
+	main
+	{
+		// prins(3);
+		{
+			std::cout << "hello world" << 3 << std::endl;
+		}
+		return 0;
+	}
+	```
+* 变量的引用
+	* c++ 新增了一种复合类型--引用变量。引用就是为已经定义的变量的别名
+	* 创建引用变量
+	```c
+	int main(int argc,char *argv[])
+	{
+		int res = 10;
+		int & rodents =  res; // rodents 就是tes,只是换了一个名称 
+		cout << rodents << endl;
+		return 0;
+	}
+	```
+	* 引用必须是在创建时候就初始化,有点类似于 `const`
+	* 引用作为函数的参数<br>
+	`下面的实例修改变量的参数`
+	```c
+	void max(int & a);
+	void swap(int *a);
+
+	int main(int argc,char *argv[])
+	{
+		int a = 1;
+		int s = 1;
+		max(a);
+		swap(&s);
+		cout << a << endl;
+		// cout a = 3
+		cout << s << endl;
+		// cout s = 3
+		return 0;
+	}
+	void max(int &  a)
+	{
+		a += 2;
+	}
+	void swap(int *a)
+	{
+		*a += 2;
+	}
+	```
+	
