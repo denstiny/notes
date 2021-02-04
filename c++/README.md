@@ -10,6 +10,8 @@
 	* [默认参数](#默认参数)
 	* [函数重载](#函数重载)
 		* [函数的参数相同类型时](#函数的参数相同类型时)
+		* [引用重载](#引用重载)
+	* [函数模板](#函数模板)
 
 <!-- vim-markdown-toc -->
 # 迟早学习笔记  
@@ -254,4 +256,33 @@ void a(int * a) {
 	cout << "int *" << endl; }
 ```
 <font size=3>编译器在检查函数的特征标时，把类型引用和类型本身视为同一个特征标,匹配函数时并不区分`const`和非`const`的变量</font>
+```c
+void dribble(const char *bits);
+void dribble(char *bits);
+int main(int argc,char *argv[])
+{
+	char *str;
+	const char *st;
+	dribble(st);  // use dribble(const char *)
+	dribble(str); 	// use dribble(char *) 
+	return 0;
+}
 
+void dribble(const char *bits) { cout << "cont char" << endl; }
+void dribble(char *bits) { cout << "char" << endl; }
+
+```
+<font size=2 color=red>请记住是特征码而不是函数类型使得可以对函数重载</font>  
+```c
+int doue(int a);
+double doue(int a);
+// 这时错误的，c艹不允许这样的重载，返回值可以不同，但是特征标也必须不同
+```
+### 引用重载
+```c
+void sink(double & r1);
+void sink(const double & r1);
+void sink(double && r1);
+```
+<font size=2>**左值引用参数r1与可修改的左值`double`匹配;`const` 左值引用参数，与可修修改的的左值应用参数，`const`左值参数和右值参数（如两个参数和）匹配；最后，左值引用参数与左值匹配。注意到第一个和第三个的参数都匹配第二个。此时，将调用最匹配的版本**</font>  
+## 函数模板
