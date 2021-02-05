@@ -285,4 +285,36 @@ void sink(const double & r1);
 void sink(double && r1);
 ```
 <font size=2>**左值引用参数r1与可修改的左值`double`匹配;`const` 左值引用参数，与可修修改的的左值应用参数，`const`左值参数和右值参数（如两个参数和）匹配；最后，左值引用参数与左值匹配。注意到第一个和第三个的参数都匹配第二个。此时，将调用最匹配的版本**</font>  
+
 ## 函数模板
+```c
+template<typename name>  //创建模板类型
+```
+<font size=3><b>实例代码</b></font>
+```c
+template<typename Anytype>
+void Swap(Anytype &a,Anytype &b);
+int main(int argc,char *argv[])
+{
+	int i = 10;
+	int b = 1;
+	char font = 'c';
+	char str = 's'
+	Swap(i, b); // int & ,int &
+	Swap(font,str); // char & ,char &
+	cout << "a -=>" << i << "b -=>" << b << endl;
+	return 0;
+}
+
+template<typename Anytype>
+void Swap(Anytype &a,Anytype &b)
+{
+	Anytype temp;
+	temp = a;
+	a = b;
+	b = temp;
+}
+
+```
+<font size=1 color=red><b>如果需要将多个不同类型应用在不同的变量，则可以使用模板</b></font>  
+
