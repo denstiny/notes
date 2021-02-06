@@ -12,6 +12,12 @@
 		* [函数的参数相同类型时](#函数的参数相同类型时)
 		* [引用重载](#引用重载)
 	* [函数模板](#函数模板)
+		* [实例代码](#实例代码)
+		* [重载模板](#重载模板)
+		* [实例](#实例)
+		* [判断模板类型](#判断模板类型)
+			* [使用方法](#使用方法)
+		* [显示具体化模板](#显示具体化模板)
 
 <!-- vim-markdown-toc -->
 # 迟早学习笔记  
@@ -193,7 +199,7 @@
 	```
 ## 引用	  
 * 程序员使用对象的参数的主要原因有两个
-	* 程序源可以修改调用函数中的对象参数
+	* 程序员可以修改调用函数中的对象参数
 	* 通过传递引用而不是整个数据对象，可以提高计算机的运行速度  
 	* 什么时候使用引用
 		* 对于传递值而不做修改的函数
@@ -290,7 +296,8 @@ void sink(double && r1);
 ```c
 template<typename name>  //创建模板类型
 ```
-<font size=3><b>实例代码</b></font>
+### 实例代码
+<font size=1><b>程序在运行的时候,会检测变量类型，并创建相应的模板，如果为`int`类型，则创建一个`int`类型的模板函数,程序员看不到这些操作，是由编译器完成的</b></font>  
 ```c
 template<typename Anytype>
 void Swap(Anytype &a,Anytype &b);
@@ -317,4 +324,119 @@ void Swap(Anytype &a,Anytype &b)
 
 ```
 <font size=1 color=red><b>如果需要将多个不同类型应用在不同的变量，则可以使用模板</b></font>  
+### 重载模板
+`模板和普通函数一样可以使用重载`
+### 实例
+```c
+#include<iostream>
+using namespace std;
+template <typename T>
+T Swap(T &a,T &d);
+template <typename T>
+T Swap(T &a,T &d,T & n);
+int main(int argc,char *argv[])
+{
+	 int n = 10, s = 1;
+	 char cs = 's',cn = 'n';
+	 
+	 cout << cn << cs << Swap(cn,cs) << endl;
+	 
+	 cout << cn << cs << Swap(cn,cs,cs) << endl;
+	return 0;
+}
 
+template <typename T>
+T Swap(T &a,T &d)
+{
+	 T ss;
+	 ss = d;
+	 d = a;
+	 a = ss;
+	 return a;
+
+}
+template <typename T>
+T Swap(T &a,T &d,T & n)
+{
+	 T ss;
+	 ss = d;
+	 d = a;
+	 a = ss;
+	 return n;
+}
+```
+### 判断模板类型
+在c艹11中，新增了一个`type_traits` 库，可以判断函数类型
+#### 使用方法
+```c
+is_same<T, int>::value  //  如果T 为int 则返回true 否则返回false
+```
+也可使用`typeid` 
+```
+int Swap(T &t)
+{
+	 if(typeid(T) == typeid(int))
+			return 1;
+	 return 2;
+}
+```
+### 显示具体化模板
+当我们使用`template`创建一个模板,如下:
+```
+template<typename t>
+void Swap(t &a,t &b);
+
+```
+<b>当我们想设置特定的函数模板,比如当我们要为`t` 为int类型时，使用定制的模板我们可以这么做 ：</b>  
+```
+template <> void Swap<int>(int &a,int &b);
+
+```
+<font size=3><b>这样就为刚刚的模板创建了一个特征的模板</b></font>  
+<font size=1><b>编译器在选择原型的时候偶，非模板类型优先于显示具体化和模板版本，而显示具体化优先于使用模板生成的版本</b></font>  
+> 实例代码
+```
+#include<iostream>
+#include <type_traits>
+using namespace std;
+
+void Swap(float &a,float &b);
+template<typename t>
+
+void Swap(t &a,t &b);
+
+struct job
+{
+	 int a;
+};
+
+template <> void Swap<int>(int &a,int &b);
+
+
+int main(int argc,char *argv[])
+{
+	 
+	 float a = 1;
+	 float b = 2;
+	 Swap(a, b);
+	return 0;
+}
+
+template <> void Swap<int>(int &a,int &b)
+{
+	 cout << "a -=> " << a << " | " << "b -=> " << b << endl;
+}
+
+template<typename t> void Swap(t &a,t &b)
+{
+	 cout << "template typename" << endl;
+}
+
+void Swap(float& a,float &b)
+{
+	 cout << "Void Swap" << endl;
+}
+
+```
+> 运行截图
+![20210206152552](https://i.loli.net/2021/02/06/aQI7xw5eKFpYNrl.png)
