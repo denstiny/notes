@@ -395,7 +395,7 @@ template <> void Swap<int>(int &a,int &b);
 <font size=3><b>这样就为刚刚的模板创建了一个特征的模板</b></font>  
 <font size=1><b>编译器在选择原型的时候偶，非模板类型优先于显示具体化和模板版本，而显示具体化优先于使用模板生成的版本</b></font>  
 > 实例代码
-```
+```c
 #include<iostream>
 #include <type_traits>
 using namespace std;
@@ -422,7 +422,7 @@ int main(int argc,char *argv[])
 	return 0;
 }
 
-template <> void Swap<int>(int &a,int &b)
+template < > void Swap<int>(int &a,int &b)
 {
 	 cout << "a -=> " << a << " | " << "b -=> " << b << endl;
 }
