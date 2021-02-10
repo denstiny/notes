@@ -18,6 +18,8 @@
 		* [判断模板类型](#判断模板类型)
 			* [使用方法](#使用方法)
 		* [显示具体化模板](#显示具体化模板)
+			* [选择模板](#选择模板)
+			* [新增关键字 `decltype`](#新增关键字-decltype)
 
 <!-- vim-markdown-toc -->
 # 迟早学习笔记  
@@ -392,7 +394,7 @@ void Swap(t &a,t &b);
 template <> void Swap<int>(int &a,int &b);
 
 ```
-<font size=3><b>这样就为刚刚的模板创建了一个特征的模板</b></font>  
+<font size=3><b>这样就为刚刚的模板创建了一个具体化的模板</b></font>  <br><br>
 <font size=1><b>编译器在选择原型的时候偶，非模板类型优先于显示具体化和模板版本，而显示具体化优先于使用模板生成的版本</b></font>  
 > 实例代码
 ```c
@@ -440,3 +442,62 @@ void Swap(float& a,float &b)
 ```
 > 运行截图
 ![20210206152552](https://i.loli.net/2021/02/06/aQI7xw5eKFpYNrl.png)
+如果完全匹配的两个函数都是模板函数，则具体化模板优先.  
+>
+#### 选择模板
+<b> 在程序中我们可以手动的选择使用模板</b>  
+如下:
+<details>
+<summary>点击查看详情</summary>
+
+```c
+#include <functional>
+#include<iostream>
+using namespace std;
+
+template <class T>
+T leasser(T a,T b);
+
+int leasser (int a ,int b);
+
+int main(int argc,char *argv[])
+{
+	 int a = 10,b = 3;
+	 double x  = 12.3,y = 5.2;
+	 cout << leasser(a,b) << endl; // use int
+	 cout << leasser<int>(x,y) << endl; // use class
+	 cout << leasser<int>(a,b) << endl; // use class
+	 cout << leasser(x,y) << endl; // use class
+	 return 0;
+}
+
+
+template <class T>
+T leasser(T a,T b)
+{
+	 cout << "class" << endl;
+	 return a-b;
+}
+
+int leasser (int a ,int b)
+{
+	 cout 	 << "int " << endl;
+	 return a+b;
+}
+
+```
+
+</details>
+<details>
+<summary>运行结果</summary>
+
+![20210208160926](https://i.loli.net/2021/02/08/gIneM82Zkl3SpqK.png)
+
+</details>
+
+#### 新增关键字 `decltype`
+```c
+int x;
+decltype(x) a; // a type int， a 的类型为int
+decltype(1+0.3) a;
+```
