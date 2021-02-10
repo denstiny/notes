@@ -23,6 +23,12 @@
 	* [单独编译](#单独编译)
 		* [头文件](#头文件)
 			* [头文件的定义](#头文件的定义)
+		* [作用域和链接](#作用域和链接)
+			* [5种变量存储方式](#5种变量存储方式)
+			* [变量的索引](#变量的索引)
+				* [多文件索引](#多文件索引)
+				* [说明符号和限制符号](#说明符号和限制符号)
+	* [new 用法](#new-用法)
 
 <!-- vim-markdown-toc -->
 # 迟早学习笔记  
@@ -582,5 +588,202 @@ int main()
 ```
 </font>
 
+### 作用域和链接
+在c++ 中默认的的函数声明中函数的参数和变量的存储性为自动，作用域为局部, 没有链接性
 
+: 实例如下代码
+
+```c
+#include<iostream>
+using namespace std;
+void max(int *a);
+int main(int argc,char *argv[])
+{
+	 int * a;
+	 int *b;
+	 cout << a << endl;
+	 {
+			a = new int;
+			cout << a << endl;
+			*a = 10;
+	 }
+	 cout << a << endl;
+	 max(b);
+	 cout << b << endl;
+	 cout << *b << endl;
+	 return 0;
+
+}
+
+void max(int *a)
+{
+	 a = new int;
+	 *a = 10;
+}
+
+
+```
+
+<details>
+<summary>运行结果</summary>
+
+![20210210164523](https://i.loli.net/2021/02/10/snkCgVIurEx1qM9.png)
+</details>
+
+`auto` 在c和以前的c++ 版本中 `auto` 含义域现在完全不同,在以前的版本中，他用于，显示的指出变量为自动存储
+在c++ 11 中，他为自动类型推断
+
+`register` 最初由c语言引入的 ,他建议编译器使用cpu寄存器来存储自动变量;  
+`register int a;`
+旨在提升从访问变量的速度
+
+#### 5种变量存储方式
+|存储描述|持续性 |作用域 |链接性 |如何声明 |
+|:-:|:-:|:-:|:-:|:-:|
+|自动 |自动 |代码块 |  无|在代码块中 |
+|寄存器 |自动 |代码块 |无 |在代码块中，使用关键字register |
+|静态，无链接性 |静态 |代码块 |无 |在代码块，使用static |
+| 静态，内部链接性|静态 |文件 |内部 |不在热河函数内，使用关键字static|
+| 静态，外部，链接性|静态| 文件| 内部|不再任何函数内
+
+
+#### 变量的索引
+
+当要调用非当前作用域的变量时可以使用`extern` 进行索引
+```
+#include<iostream>
+#include "file.h"
+using namespace std;
+int as(int a,int b);
+int main(int argc,char *argv[])
+{
+	 extern int s; // 索引变量s 
+	 s = 20;
+	 cout << s << endl;
+	 return 0;
+}
+
+int as(int a,int b)
+{
+	 return a+b;
+}
+
+int s = 10;  
+```
+##### 多文件索引
+> external.cpp
+```
+#include<iostream>
+using namespace std;
+
+double war = 0.3;
+
+void update(double dt);
+void local();
+
+int main(int argc,char *argv[])
+{
+	 cout << "Globl " <<  war << " dd" << endl;
+
+	 update(0.1);
+	 cout << "Globl " << war << endl;
+
+	 local();
+	 cout << war << endl;
+	 return 0;
+}
+
+```
+> supportt.cpp
+```
+#include<iostream>
+using namespace std;
+
+extern double war;
+
+void update(double dt)
+{
+	 extern double war;
+	 war += dt;
+	 cout << "Update " << war;
+	 cout << "degress ";
+}
+void local()
+{
+	 double war = 0.8;
+	 cout << "local " << war << "degress";
+	 cout << "But global warming  =" << ::war ;
+	 cout << "degress" ;
+}
+
+```
+> 运行结果
+
+![20210210221325](https://i.loli.net/2021/02/10/Mk2wUtih9EQg7oj.png)
+
+##### 说明符号和限制符号
+
+- `mutable` 
+`const` 可以限制 变量定义之后无法再进行修改，而`mutable` 可以指出结构或者类为 `const` 之后，依然可以保持可以修改的状态 
+<details>
+<summary>点击查看</summary>
+
+```c
+struct data
+{
+	 char name[20];
+	 mutable int ese;
+};
+int main(int argc,char *argv[])
+{
+	 const data temp {"asdfasdf",10};
+	 temp.ese = 1;
+	 cout << temp.name << temp.ese << endl;
+	 return 0;
+}
+
+```
+> 运行结果
+![20210210223138](https://i.loli.net/2021/02/10/R4APHjlqTtsQXIW.png)
+
+</details>
+
+## new 用法
+
+1. new(temp) type
+```c
+int a[10] ;
+int *b = new (a) int[4]; // 从a中分配5个内存给b
+```
+> 实例
+```c
+#include <cstdio>
+#include <iostream>
+#include <stdio.h>
+using namespace std;
+
+int main(int argc,char *argv[])
+{
+	 char buff[100];
+	 char *p = new(buff) char[90];
+
+	 for(int b = 0;b < 10;b++)
+		 buff[b] = 's'; // 将buff前10个变量初始化为 s
+
+	 printf("%p\n",buff);
+
+	 printf("%p\n",p);
+
+	 for(int b = 0;b < 100;b++)
+			cout << *(p+b) << endl;  // 输出所有p的内存地址存储的的值
+	 return 0;
+}
+
+```
+<details>
+<summary>运行结果</summary>
+
+![20210210230532](https://i.loli.net/2021/02/10/gWYu3BhcXd5RAGb.png)
+
+</details>
 
