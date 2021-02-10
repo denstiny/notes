@@ -20,6 +20,9 @@
 		* [显示具体化模板](#显示具体化模板)
 			* [选择模板](#选择模板)
 			* [新增关键字 `decltype`](#新增关键字-decltype)
+	* [单独编译](#单独编译)
+		* [头文件](#头文件)
+			* [头文件的定义](#头文件的定义)
 
 <!-- vim-markdown-toc -->
 # 迟早学习笔记  
@@ -501,3 +504,83 @@ int x;
 decltype(x) a; // a type int， a 的类型为int
 decltype(1+0.3) a;
 ```
+
+## 单独编译
+<font size=5><b>和c语言一样，c++ 也鼓励程序员将组建函数放在独立的文件夹中.</b></font> 
+### 头文件
+`在头文件中应包含以下内容`
+
+<font size =4>
+<b>
+
+- 函数原型
+- 使用#define 或 const 定义的符号常量
+- 结构声明
+- 类声明
+- 模板声明
+- 内敛声明
+
+</b>
+</font>
+
+#### 头文件的定义
+
+<font size=6>
+
+<font size=3>
+
+> config.h 
+</font>  
+
+```c
+#ifndef CONFIG_H_
+#define CONFIG_H_
+struct poar
+{
+ double dou;
+ int as;
+};
+void show_poly(poar day);
+#endif
+
+```
+<font size=3>
+
+> file.cpp
+</font>
+```c
+#include <iostream>
+#include <cmath>
+using namespace std;
+#include "con.h"
+int main()
+{
+	 read();
+	 return 0;
+}
+```
+</font>
+
+<font size=3>
+
+> file1.cpp
+</font>
+
+<font size=6>
+
+```c
+#include <iostream>
+#include <cmath>
+using namespace std;
+#include "con.h"
+int main()
+{
+	 read();
+	 return 0;
+}
+
+```
+</font>
+
+
+
