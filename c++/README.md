@@ -29,6 +29,16 @@
 				* [多文件索引](#多文件索引)
 				* [说明符号和限制符号](#说明符号和限制符号)
 	* [new 用法](#new-用法)
+	* [内存模型和名称空间](#内存模型和名称空间)
+		* [`using`  声明](#using--声明)
+			* [注意事项](#注意事项)
+			* [`using` 编译指令 和 编译声明比较](#using-编译指令-和-编译声明比较)
+	* [c++ 内存分区模型](#c-内存分区模型)
+			* [程序执行时](#程序执行时)
+	* [类与对象](#类与对象)
+		* [构造函数](#构造函数)
+		* [类的访问权限](#类的访问权限)
+	* [类的具体学习](#类的具体学习)
 
 <!-- vim-markdown-toc -->
 # 迟早学习笔记  
@@ -749,6 +759,7 @@ int main(int argc,char *argv[])
 </details>
 
 ## new 用法
+当`new`失败时将返回 `std::bad_allos`
 
 1. new(temp) type
 ```c
@@ -787,3 +798,167 @@ int main(int argc,char *argv[])
 
 </details>
 
+## 内存模型和名称空间
+`
+在c++ 中，名称可以是变量、函数、结构、枚举、类、以及类和结构的成员。当随着项目的增大，名称相互冲突性也将增加。
+c++ 提供了名称空间工具，以便更好的管理控制名称的作用域
+`  
+
+`namespace` 创建名称空间
+>实例
+
+```
+namespace Jack
+{
+int pail;
+...
+}
+
+// 创建一个反而Jack名称空间
+```
+
+<font size=4><b>名称空间可以是全局的也可以是位于一个名称空间中</b></font>  
+
+```
+namespace Jack
+{
+int pail;
+namespace js
+{
+int temp;
+}
+...
+}
+
+//创建一个 Jack名称空间，并在其中创建一个 js名称空间
+```
+
+### `using`  声明
+
+
+>  测试命名空间
+
+`using` 声明将名称添加到局部变量的声明区域中
+
+```
+#include<iostream>
+using namespace std;
+namespace Jakc {
+int todo;
+}
+int main(int argc,char *argv[])
+{
+	 //using Jakc::todo;
+	 int todo; // 由于using 生命将名声添加到局部生命区域中，因此无法在这个局部声明，重复定义相同的fetch
+	 todo = 10;
+	 cout << todo << endl;
+	 cout << &todo << endl;
+	 cout << &Jakc::todo << endl;
+	 return 0;
+}
+
+
+```
+> 运行结果
+
+<details>
+<summary>点击查看详情</summary>
+
+![20210211125319](https://i.loli.net/2021/02/11/4Px7faUOb5RpVs6.png)
+
+
+```
+观察到命令空间中的`todo` 地址与 局部变量`todo`地址不同
+
+```
+
+</details>
+
+#### 注意事项
+
+```
+namespace Jack
+{
+ int a;
+}
+namespace jill
+{
+	 int a ;
+}
+
+Jack::a;
+jill::a;
+不是相同的标识符，标识不同的内存单元
+```
+
+> 实例
+
+```
+namespace Jack {
+int line;
+}
+
+namespace Jock {
+int line;
+}
+int main(int argc,char *argv[])
+{
+	 Jack::line = 10;
+	 Jock::line = 20;
+
+	 int pal = 30;
+	 cout << Jack::line << endl
+			<< Jock::line << endl
+			<< pal << endl;
+	 return 0;
+}
+
+```
+<details>
+<summary>点击查看详情</summary>
+
+![20210211131808](https://i.loli.net/2021/02/11/siyxkYnOPIEWtUH.png)
+
+</details>
+
+#### `using` 编译指令 和 编译声明比较
+
+
+## c++ 内存分区模型
+#### 程序执行时
+- 代码区：存放函数体的二进制代码，由操作系统进行管理
+- 全局区：存放全局变量和静态变量以及常量
+- 栈区：由编译器自动分配释放，存放函数的参数值，局部变量等
+- 堆区：由程序员分配和释放，若程序员不释放，程序结束时由操作系统回收  
+<font size=3><b>不同区域存放数据的意义j</b></font>  
+ - 不同区域存放的数据，赋予不同的生命周期，给予我们更灵活编程
+
+## 类与对象
+### 构造函数
+ `与类同名的函数`
+ ```
+ class sl
+ {
+		public:
+			sl() // 构造函数  在对象创建的时候自动调用
+			{
+				 cout << "hello world" << endl;
+
+			}
+			~sl() // 构造函数  在对象结束时候自动调用
+			{
+				 cout << "see you" << endl;
+			}
+ }
+ ```
+
+
+### 类的访问权限
+|`类型` |权限|
+|:-:|:-:|
+|`public` |共有 |
+|`private` |私有 |
+| `protected`|保护 |
+
+
+## [类的具体学习](./classREADME.md)
