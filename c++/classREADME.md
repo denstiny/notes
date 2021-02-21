@@ -6,6 +6,9 @@
 		* [成员函数运算符重载](#成员函数运算符重载)
 		* [全局函数运算符重载](#全局函数运算符重载)
 		* [运算副重载函数发生重载](#运算副重载函数发生重载)
+	* [拷贝构造](#拷贝构造)
+	* [友元](#友元)
+	* [继承](#继承)
 
 <!-- vim-markdown-toc -->
 
@@ -96,4 +99,95 @@ cout << (a+10).ba << " | " << (a+2).bb << endl;
 
 ![20210217175008](https://i.loli.net/2021/02/17/h5IHf4VZCFkE9xD.png)
 
+## 拷贝构造
+<font size=5><b>拷贝构造</b></font>  
+在类中创建一个拷贝构造函数实例:
+
+```
+class Person
+{
+public:
+
+  Person() {
+    cout << "Person 构造函数" << endl;
+  }
+
+  Person(const Person &p) { // 拷贝构造
+    // 拷贝构造
+		cout << "拷贝构造" << endl;
+    cout << p.age << endl;
+    age = p.age;
+  }
+
+  void setAge(int a) {
+    age = a;
+  }
+  void PAge()
+  {
+    cout << age << endl;
+  }
+private:
+  int age;
+};
+
+```
+<font size=3><b>使用</b></font>  
+```
+person p,b;
+p(b);
+
+```
+
+
+## 友元
+
+<font size=5><b>创建一个友元类</b></font>  
+```
+class pe;
+class clxear {
+
+	friend class pe;
+	friend void max(clxear &p);  // 友元 是全局函数 max可以访问 私有变量和函数
+
+	public:
+	int a;
+	private:
+	int b;
+
+};
+
+```
+
+## 继承
+
+在使用 c++ 的时候因为要创建很多不同的类,但是这些不同的类可能存在同样地功能  
+在此我们可以使用继承
+首先我们创建一个类
+
+```
+class BaseHead { // 继承节点 配置
+	public:
+	void Print() {
+		cout << "hello world!" << endl;
+	}
+};
+
+```
+
+使用继承
+
+```
+// 创建一个子类
+class head:public BaseHead { // 子类使用父类 BaseHead 继承
+// 子类也称为派生类
+// 父类也称为基类
+};
+
+int main(int argc,char *argv[]) {
+	head p;
+	p.Print();
+	return 0;
+}
+
+```
 
