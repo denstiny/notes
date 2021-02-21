@@ -9,6 +9,9 @@
 	* [拷贝构造](#拷贝构造)
 	* [友元](#友元)
 	* [继承](#继承)
+		* [继承方式](#继承方式)
+		* [继承复用](#继承复用)
+		* [继承的构建顺序](#继承的构建顺序)
 
 <!-- vim-markdown-toc -->
 
@@ -190,4 +193,169 @@ int main(int argc,char *argv[]) {
 }
 
 ```
+
+### 继承方式
+
+![20210221104349](https://i.loli.net/2021/02/21/iu2gGv1VUtCrZkW.png)
+案例
+```
+#include<iostream>
+using namespace std;
+
+class Perjet {
+	public: // 公共继承
+		void PuPrint() {
+			cout << "This is my Public !" << endl;
+		}
+	private: // 私有继承
+		void PrPrint() {
+			cout << "This is my Private !" << endl;
+		}
+	protected: // 保护继承
+		void PoPrint() {
+			cout << "This is my Protected !" << endl;
+		}
+};
+
+
+class OnePerjet: public Perjet  { // 共有继承
+	public:
+		OnePerjet() {
+			PoPrint();
+			PuPrint();
+		}
+};
+
+class TowPerjet: private Perjet { // 私有继承
+	public: 
+		TowPerjet() {
+			PoPrint();
+			PuPrint();
+		}
+};
+
+class TherePerjet: protected Perjet { // 保护继承
+	public: 
+		TherePerjet() {
+			PoPrint();
+			PuPrint();
+		}
+};
+int main(int argc,char *argv[]) {
+	
+	class OnePerjet a;
+	class TowPerjet b;
+	class TherePerjet c;
+	a.PuPrint();
+	
+	return 0;
+}
+
+```
+<font size=5><b>注意基类中的私有内容，子类无法访问</b></font>  
+
+![20210221112020](https://i.loli.net/2021/02/21/bmt1UXVCOgeQTjG.png)
+
+### 继承复用
+```
+class BasePage: public OnePerjet { // 继承基类 BasePage
+	public:
+		BasePage() {
+			cout << "BasePage" << endl;
+			PuPrint();
+			PoPrint();
+		}
+};
+class BasePerje :private OnePerjet{
+	public:
+		BasePerje() {
+			cout << "BasePerje" << endl;
+			PuPrint(); 
+			PoPrint();
+		}
+};
+
+
+```
+
+<font size=4><b>继承基类，会把基类所有的内容继承</b></font>  
+
+
+```
+#include<iostream>
+using namespace std;
+
+class BasePage {
+	public:
+		int a;
+		BasePage() {
+			cout << &b << endl;
+		}
+	private:
+		int b;
+	protected:
+		int c;
+};
+
+class BaseOne:public BasePage {
+	public:
+		int ba;
+		BaseOne() {
+			cout << &b << endl;
+			ba = 1;
+			b = 2;
+			cout << ba << " | " << b << endl;
+		}
+	private:
+		int b;  
+};
+
+int main(int argc,char *argv[]) {
+	BaseOne p;
+	BasePage c;
+	cout << sizeof(c) << endl;
+	cout << sizeof(p) << endl;  // 基类中的所有内容都会继承   大小为20  编译器会自动帮你隐藏 私有内容
+
+	return 0;
+}
+
+```
+
+输出结果
+
+![20210221121352](https://i.loli.net/2021/02/21/3gMB5KcpiALwIQ4.png)
+
+### 继承的构建顺序
+
+```
+
+class Perjet {
+	public:
+		Perjet() {
+			cout << "This is my Perjet" << endl;
+		}
+		~Perjet() {
+			cout << "This is my Perjet" << endl;
+		}
+};
+
+class BaseJet :public Perjet {
+	public:
+		BaseJet() {
+			cout << "This is my BaseJet !" << endl;
+		}
+		~BaseJet() {
+			cout << "This is my BaseJet !" << endl;
+		}
+};
+int main(int argc,char *argv[]) {
+	BaseJet p;
+	// 继承先构建 基类，然后在构建子类，删除类的时候,先删除子类，然后删除基类
+	return 0;
+}
+```
+
+
+<font size=5 color=red><b>继承先构建 基类，然后在构建子类，删除类的时候,先删除子类，然后删除基类 </b></font>  
+
 
