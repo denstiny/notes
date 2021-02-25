@@ -263,7 +263,7 @@ print('2','s');              // use #2
 print(1.0,'s');              // use #3
 ```
 ### 函数的参数相同类型时
-```c
+```
 #include<iostream>
 using namespace std;
 void a(int a);
@@ -817,7 +817,7 @@ int pail;
 // 创建一个反而Jack名称空间
 ```
 
-<font size=4><b>名称空间可以是全局的也可以是位于一个名称空间中</b></font>  
+<font size=4><b>名称空间可以是全局的也可以是位于另一个名称空间中</b></font>  
 
 ```
 namespace Jack

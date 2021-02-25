@@ -12,6 +12,11 @@
 		* [继承方式](#继承方式)
 		* [继承复用](#继承复用)
 		* [继承的构建顺序](#继承的构建顺序)
+		* [继承基类调用](#继承基类调用)
+			* [静态变量](#静态变量)
+			* [多重继承](#多重继承)
+		* [虚继承](#虚继承)
+	* [多态](#多态)
 
 <!-- vim-markdown-toc -->
 
@@ -358,4 +363,163 @@ int main(int argc,char *argv[]) {
 
 <font size=5 color=red><b>继承先构建 基类，然后在构建子类，删除类的时候,先删除子类，然后删除基类 </b></font>  
 
+###  继承基类调用
+当子类与父类拥有同名的成员变量 时，子类会覆盖父类继承的成员,直接调用会使用的是子类成员成员变量
 
+
+```
+class Perjet {
+	public:
+	int M_y;
+	char M_S;
+};
+
+class BasePerjet:public Perjet {
+	public:
+		int M_S;
+		BasePerjet() {
+			M_y = 89;
+			M_S = 89;
+			Perjet::M_S = 'j';
+		}
+};
+
+int main(int argc,char *argv[]) {
+	BasePerjet a;
+	cout << a.M_y  << " | " << a.M_S << endl;
+	cout << a.Perjet::M_y  << " | " << a.Perjet::M_S << endl;
+	return 0;
+}
+
+```
+我们可以使用`a.Perjet::M_y` 来精准调用
+
+> 运行结果
+
+![20210221175930](https://i.loli.net/2021/02/21/M9t5WLyAZg2FmfD.png)
+
+#### 静态变量
+静态变量和普通变量使用一样
+```
+
+class Perjet {
+	public:
+		static int a;
+};
+int Perjet::a = 100; // 注意静态变量需要类外初始化
+
+class BasePerje:public Perjet {
+	public:
+		static int a;
+};
+int BasePerje::a = 88;
+
+int main(int argc,char *argv[]) {
+	BasePerje p;
+	
+	cout << char(p.a) << " | " << char(p.Perjet::a)<< endl;
+	return 0;
+}
+
+```
+
+#### 多重继承
+在类中使用 `class 子类 :继承方式 基类名称,继承方式 基类名称...`
+使用案例
+```
+class Perjet {
+	public:
+		int a;
+		static int max() {
+			cout << "This is my Perjet" << endl;
+			return 10;
+		}
+		Perjet () {
+			a = 50;
+		}
+};
+
+class BasePerjet {
+	public:
+		int a;
+		static int max() {
+			cout << "This is my BasePerjet" << endl;
+			return 50;
+		}
+		BasePerjet() {
+			a = Perjet::max();
+		}
+};
+
+class BasePerjetOne :public Perjet,public BasePerjet {
+	public:
+		int a;
+		static int max() {
+			cout << "This is my BasePerjetOne" << endl;
+			return 100;
+		}
+		BasePerjetOne() {
+			a = BasePerjet::max();
+		}
+};
+
+int main(int argc,char *argv[]) {
+	BasePerjetOne p;
+	
+	p.max();
+	p.BasePerjet::max();
+	Perjet::max();
+	
+	cout << p.BasePerjet::a << endl;
+	cout << p.Perjet::a << endl;
+	cout << p.a << endl;
+	return 0;
+}
+```
+> 运行结果
+![20210222135554](https://i.loli.net/2021/02/22/5H64tiGdPNcReW8.png)
+
+> 使用调试工具查看内存
+
+![20210222135625](https://i.loli.net/2021/02/22/JSh2TapykVwtQzW.png)
+
+
+>> 可以看到 类`p` 继承了`BasePerjet` 和 `Perjet` 两个父类
+
+### 虚继承
+在前面的多继承中，发现了一个问题
+就是当我们进行多继承的时候，会继承多份内容  
+为了解决这个问题，我们可以使用虚继承
+
+```
+class Perjet {
+	public: 
+		int a;
+		Perjet() {
+			a = 10;
+		}
+};
+
+class PerjetOne:virtual public Perjet {  //  virtual 虚继承的关键字
+};
+
+class PerjetTow:virtual public PerjetOne {
+};
+
+
+int main(int argc,char *argv[]) {
+	PerjetTow p;
+	cout << p.a << endl; 
+	p.a = 100;  // 此时修改a的值
+	cout << p.PerjetOne::a << endl;  // 输出基类的a
+	//  输出结果为 100 ，可以发现虚继承类似使用共享内存
+	return 0;
+}
+```
+
+为了验证上面的猜想，我们打印一下地址
+![20210222160106](https://i.loli.net/2021/02/22/NPtzbSR1Bc9Jip3.png)
+
+发现地址是一模一样的，这正好验证了上面的猜想
+
+## [多态](./polymorphism.md)
