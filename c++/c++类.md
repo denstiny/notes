@@ -522,4 +522,4 @@ int main(int argc,char *argv[]) {
 
 发现地址是一模一样的，这正好验证了上面的猜想
 
-## [多态](./polymorphism.md)
+## [多态](./c++多态.md)

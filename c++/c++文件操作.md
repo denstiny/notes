@@ -2,6 +2,8 @@
 <!-- vim-markdown-toc GFM -->
 
 * [C++ 文件操作](#c-文件操作)
+		* [二进制文件写入](#二进制文件写入)
+		* [二进制文件读取](#二进制文件读取)
 
 <!-- vim-markdown-toc -->
 # C++ 文件操作
@@ -50,9 +52,110 @@ ofstream outfile;
 outfile.open("file.dat", ios::out | ios::trunc );
 
 ```
+> 同时写入和读取
+```
+
+void Fstream() {
+	fstream os("tes.txt",ios::in | ios::out);
+	
+	if(!os.is_open()) {
+		cout << "file open error" << endl;
+		return;
+	}
+	
+	os << "**************" << endl;
+	os << "* 姓名: 李明 *" << endl;
+	os << "* 年龄: 18   *" << endl;
+	os << "**************" << endl;
+	
+	string buf;
+	os.seekp(0);  // 设置文件内指针的位置，0为文件首 // 因为写入操作，指针在最后，所以需要加上这一步
+	
+	while(getline(os,buf)) {
+		cout << buf << endl;
+	}
+		
+	os.close();
+}
+```
+
+```
+// 读取文件的其他方式
+string buf;
+	while(getline(os,buf)) {
+		cout << buf << endl;
+	}
+
+char buffer[100];
+	while(!ifos.eof()) {
+		ifos.getline(buffer,100);
+		cout << buffer << endl;
+
+string buf;
+	while (os >> buf) {
+	cout << buf << endl;
+	}
+```
+
 
 <font size=4><b>关闭文件</b></font>  
 ```
 void close();
 ```
+### 二进制文件写入
+```
+#include <iostream>
+#include <fstream>
+#include <string.h>
+#include <string>
+using namespace std;
 
+class Perjet {
+	public:
+		char buf[100];
+		int bufsize;
+};
+
+
+int main(int argc,char *argv[]) {
+	
+	char buf[100] = "asdf";
+	Perjet p = {"张三",19};
+
+	//Perjet p;
+	fstream os("tst",ios::binary | ios::out | ios::in);
+	os.write((const char *)&p, sizeof(Perjet));
+	
+	//os.read((char *)&p, sizeof(Perjet));
+	//cout << "字符 :" << p.buf << "字符长度: " << p.bufsize << endl;
+	os.close();
+	return 0;
+}
+```
+
+### 二进制文件读取 
+
+```
+#include <iostream>
+#include <fstream>
+#include <string.h>
+#include <string>
+using namespace std;
+
+class Perjet {
+	public:
+		char buf[100];
+		int bufsize;
+};
+
+
+int main(int argc,char *argv[]) {
+	
+	Perjet p;
+	fstream os("tst",ios::binary | ios::in);
+	os.read((char *)&p, sizeof(Perjet));
+	cout << "字符 :" << p.buf << "字符长度: " << p.bufsize << endl;
+	os.close();
+	return 0;
+}
+```
