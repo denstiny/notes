@@ -8,11 +8,18 @@
 		* [字符串查找](#字符串查找)
 		* [字符串的替换](#字符串的替换)
 		* [比较函数](#比较函数)
-	* [vector 容器](#vector-容器)
+	* [vector](#vector)
 		* [迭代器](#迭代器)
 			* [完整实例](#完整实例)
 		* [string 字符存取](#string-字符存取)
+	* [---](#---)
+	* [> 分割线](#-分割线)
+	* [---](#----1)
 		* [string 插入和删除操作](#string-插入和删除操作)
+		* [字符串的截取](#字符串的截取)
+	* [`vector` 容器](#vector-容器)
+		* [构造函数](#构造函数)
+		* [赋值](#赋值)
 
 <!-- vim-markdown-toc -->
 
@@ -96,7 +103,7 @@ if(str2.compare(str3) == 0) {
 ```
 
 
-## vector 容器
+## vector 
 `vector`
 > 创建一个容器
 ```
@@ -246,7 +253,15 @@ int main(int argc,char *argv[]) {
 	cout << str << endl;
 	return 0;
 }
+
+
 ```
+---
+---
+> 分割线
+---
+---
+
 ### string 插入和删除操作
 
 > 插入
@@ -258,5 +273,89 @@ str.insert(0,"111");
 ```
 string str = "hello wrold";
 str.erase(1,3);
+```
+
+### 字符串的截取
+
+> `substr`
+```
+string str = "abcdef";
+string subStr = str.substr(0,3); // 从0开始截取3个字符
+```
+
+> 实例 从邮箱地址中提取用户信息
+```
+int main(int argc,char *argv[]) {
+	string str = "2254228017@qq.com";
+	cout << "帐号： " << str.substr(0,str.find("@")) << " 邮箱类型： " << str.substr(str.find("@")+1) << endl;
+	return 0;
+}
+```
+## `vector` 容器
+
+### 构造函数
+
+```
+using namespace std;
+template<class T>
+void Print(int v) {
+	cout << v ;
+}
+
+template<class T>
+void Printf(vector<T> v) {
+	for_each(v.begin(), v.end(), Print<T>);
+	cout  << " 类型： "<< typeid(T).name() << endl;
+}
+
+int main(int argc,char *argv[]) {
+	
+	vector<int> v1; // 默认构造
+	for(int i = 0;i < 10;i++)
+		v1.push_back(i);
+	Printf(v1);
+	
+	vector<int> v2(v1.begin(),v1.end()); // 区间构造
+	Printf(v2);
+	
+	vector<int> v3(v2); // 拷贝构造
+	Printf(v3);
+	return 0;
+}
+```
+
+### 赋值
+```
+template<class T> 
+void Printf(vector<T> &v) {
+	for(typename vector<T>::iterator it = v.begin(); it != v.end();it++) {
+		cout << *it << " ";
+	}
+	cout << endl;
+}
+
+int main(int argc,char *argv[]) {
+	vector<int> v1;
+	for(int i = 1;i <= 10;i++) {
+		v1.push_back(i);
+	}
+	Printf(v1);
+	
+	// 赋值 operator=
+	vector<int>v2;
+	v2 = v1;
+	Printf(v2);
+	
+	// assign
+	vector<int> v3;
+	v3.assign(v1.begin(),v1.end()); // 区间赋值
+	Printf(v3);
+	
+	// n 个 elem 方式赋值
+	vector<int>v4;
+	v4.assign(10,100);
+	Printf(v4);
+	return 0;
+}
 ```
 
