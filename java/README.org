@@ -18,14 +18,12 @@
 
 **** Code 
      
-     #+END
-
      #+BEGIN_SRC java
-    /**
- * @author Jackrabbit
- * @version 1.0
- * @date 2021/3/22 14:18
- */
+	/**
+    * @author Jackrabbit
+    * @version 1.0
+    * @date 2021/3/22 14:18
+   */
 
 public class Study_Variable {
     /*
