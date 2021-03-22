@@ -20,6 +20,11 @@
 	* [`vector` 容器](#vector-容器)
 		* [构造函数](#构造函数)
 		* [赋值](#赋值)
+		* [交换](#交换)
+	* [deque 容器](#deque-容器)
+		* [构造函数](#构造函数-1)
+		* [容器大小](#容器大小)
+		* [插入和删除操作](#插入和删除操作)
 
 <!-- vim-markdown-toc -->
 
@@ -359,3 +364,97 @@ int main(int argc,char *argv[]) {
 }
 ```
 
+### 交换
+
+```
+vector<int> v1;
+for(int i = 10;i > 0;i--) 
+	v1.push_back(i);
+
+vector<int> v2;
+for(int i = 0;i < 10;i++) 
+	v2.push_back(i);
+
+
+cout << "Swap" << endl;
+Printf(v1);
+Printf(v2);
+v2.swap(v1);
+cout << "run swap" << endl;
+Printf(v1);
+Printf(v2);
+
+```
+> swap实际作用
+
+```
+vector<int> v1;
+for(int i = 0;i < 10000;i ++) 
+	v1.push_back(i);
+
+// v1 的大小为 10000 ，占用的内存为13000
+
+v1.rsize(3);
+// v1 的大小更改为 3 ，占用的内存为 13000
+
+vector<int>(v).swap(v);
+// 创建匿名对象，初始化为v，然后和v进行交换空间，匿名对象指向的空间，系统将会自动回收
+```
+
+## deque 容器
+> 相对于 `vector` 容器，访问速度相对较慢，但是头插和尾插速度优秀
+
+
+### 构造函数
+```
+deque<int> d; // 默认构造
+for(int i : {60,61,62,63,64,65}) {
+	d.push_back(i);
+}
+Printf(d);
+// 区间构造
+deque<char>  d1(d.begin(),d.end());
+Printf(d1);
+// 拷贝构造
+deque<int> d2(d);
+Printf(d2);
+
+
+deque<int> d3(3,1);
+```
+
+### 容器大小
+```
+#include <iostream>
+#include <deque>
+using namespace std;
+// deque size The size of the
+
+// 输出函数
+template<class T>
+void Printf(const deque<T> d) {
+	for(typename deque<T>::const_iterator dv = d.begin();dv != d.end();dv++){
+		cout << *dv << " ";
+	}
+	cout << endl;
+}
+
+int main(int argc,char *argv[]) {
+	deque<int> d;
+	// 初始化函数
+	for(int i = 0;i < 10;i++)
+		d.push_back(i);
+	
+	Printf(d);
+	cout << "d size ==> " << d.size() << endl;
+	d.resize(15); // 重新指定 容器的 大小， 多余的内存将默认初始化为0 ，可以实用 d.resize(15,1) 指定多余的内存初始化为1
+	cout << "d size ++> " << d.size() << endl;
+	Printf(d);
+	return 0;
+}
+```
+> $empty$ 判断是否为空
+
+
+
+### 插入和删除操作

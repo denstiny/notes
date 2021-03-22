@@ -30,6 +30,11 @@ trust 键盘的MAC地址
 connect 键盘的MAC地址
 
 ```
+> 如果以上方式使用不了试试下面这这种方式
+
+```
+sudo pacman -S blueberry # 图形化工具
+```
 
 ## 中文字符乱码
 1. 

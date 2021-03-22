@@ -1,0 +1,145 @@
+*  java 笔记  
+
+** 基本数据类型 
+   
+   |--------+----------|
+   |  <c>   |      <r> |
+   |  类型  |     类型 |
+   |  int   |     整形 |
+   |  byte  |   短整形 |
+   |  shot  |     整形 |
+   |  long  |   长整形 |
+   |--------+----------|
+   | float  |   浮点数 |
+   | double | 双精准度 |
+   |--------+----------|
+   |  char  |   字符型 |
+   |--------+----------|
+
+**** Code 
+     
+     #+END
+
+     #+BEGIN_SRC java
+    /**
+ * @author Jackrabbit
+ * @version 1.0
+ * @date 2021/3/22 14:18
+ */
+
+public class Study_Variable {
+    /*
+    1、常量：是不可变化量，数字
+    2、变量：可以改变的量，函数里的 x,y。生活中的年龄等
+    3、标识符：是用来标识一些特定意义的符号。变量名称，常量名称，类名等
+    4、标识符的命名规则：
+	1）：只能由 英文字母，数字，_(下划线)，$ 组成
+	2）:数字不可以开头
+	备注：大驼峰命名法--每个单词的首字母要大写，比如Study_Variable，HelloWorld
+		    一般用在类名，接口等
+	      小驼峰命名法--首字母小写，后续所有的单词首字母大写，xiaoMing
+		       变量，方法名
+     */
+    //main 函数，是Java程序的入口
+    /*
+    这个是我学习到的第一个Java的代码，是一个函数
+    这个函数是程序运行的入口
+    这个函数很重要，需要默写下来
+     */
+    /**
+     *
+     * @param args
+     */
+    public static void main(String[] args){
+//        整数：
+//        在Java中 整数是默认为 int 如果需要以long存储，则需要在数字的后面加 L
+	byte b1 = -128;
+	short s1 = 129;
+	int i1 = -2100000000;
+	long l1 = -2300000000L;
+
+	//小数,在java中，小数默认是以double形式存在，如果要存入float，则需要在数字后面加f
+	float f1 = 1.2f;
+	double d1 = 1.2;
+
+	//字符型 char,用单引号，只能存放一个字符（字母）
+	char c1 = 'q';
+	char c2 ='中';
+	//转义符：将java中一些特殊的字符进行转义（转换意义）
+	char c3 = '\'';//  \' 代表真实的字符  '
+	System.out.println(c3);
+	//布尔型
+	boolean bool1= true;
+	boolean bool2 = false;
+
+
+	//数据类型转换
+	/*
+	整数之间数据的转换
+	byte --> short --->int ---> long
+	long --> int--->short --->byte
+	 */
+
+	byte x = 127;
+	short x1 = x;
+	int x2 = x1;
+	long x3 = x2;
+	System.out.println("x-->"+x);
+	System.out.println("x1-->"+x1);
+	System.out.println("x2-->"+x2);
+	System.out.println("x3-->"+x3);
+	long y = 2200000000L;
+	int y1 = (int) y;
+	short y2 =(short) y1;
+	byte y3 =(byte) y2;
+	System.out.println("y--->"+y);
+	System.out.println("y1--->"+y1);
+	System.out.println("y2--->"+y2);
+	System.out.println("y3--->"+y3);
+	/*
+	float --->double
+	double ---->float
+	 */
+	float f_1 = 12.34f;
+	double d_1 = f_1;
+	System.out.println("f_1--->"+f_1);
+	System.out.println("d_1--->"+d_1);
+	double d_2 = 123.457789;
+	float f_2 = (float) d_2;
+	System.out.println("f_2--->"+f_2);
+	System.out.println("d_2--->"+d_2);
+
+
+	int i_1 = 1234;
+	double d_3 = i_1;
+
+	System.out.println(d_3);
+
+	double d_4 = 12345.2345;
+	int i_4 =(int) d_4;
+	System.out.println(i_4);
+
+	char c_5 = 'Q';
+	System.out.println(c_5+1);
+	int i_5 = c_5;
+	System.out.println(i_5);
+	/*
+	String 是 引用数据类型----类（String 类）
+	用双引号标识
+	 */
+	String str = "这个是一个字符串";
+	System.out.println(str);
+	String str1 = "1+";
+	String str2 = "2";
+	String str3 = "=3";
+	System.out.println(str1+1+'A'+false+123.4);
+
+
+
+    }
+
+
+
+}
+     #+END_SRC
+
