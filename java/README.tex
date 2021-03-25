@@ -1,25 +1,62 @@
-*  java 笔记  
-** 基本数据类型 
-   
-   |--------+----------|
-   |  <c>   |      <r> |
-   |  类型  |     类型 |
-   |  int   |     整形 |
-   |  byte  |   短整形 |
-   |  shot  |     整形 |
-   |  long  |   长整形 |
-   |--------+----------|
-   | float  |   浮点数 |
-   | double | 双精准度 |
-   |--------+----------|
-   |  char  |   字符型 |
-   |--------+----------|
-   | boolde |          |
-   |--------+----------|
+% Created 2021-03-25 四 19:39
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\author{aero}
+\date{\today}
+\title{}
+\hypersetup{
+ pdfauthor={aero},
+ pdftitle={},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 27.1 (Org mode 9.3)}, 
+ pdflang={English}}
+\begin{document}
 
-**** Code 
-     
-     #+BEGIN_SRC java
+\tableofcontents
+
+\section{java 笔记}
+\label{sec:org8b7b832}
+\subsection{基本数据类型}
+\label{sec:orgbd96cf9}
+
+\begin{center}
+\begin{tabular}{cr}
+\hline
+类型 & 类型\\
+int & 整形\\
+byte & 短整形\\
+shot & 整形\\
+long & 长整形\\
+\hline
+float & 浮点数\\
+double & 双精准度\\
+\hline
+char & 字符型\\
+\hline
+boolde & \\
+\hline
+\end{tabular}
+\end{center}
+
+\begin{enumerate}
+\item Code
+\label{sec:org5f5b745}
+
+\begin{verbatim}
 	/**
     * @author Jackrabbit
     * @version 1.0
@@ -140,40 +177,45 @@ public class Study_Variable {
 
 
 }
-     #+END_SRC
-
-
-     
-     
-     
-** 运算符
-
-
-|    tab     | tab  |    tab     |      |
-|------------+------+------------+------|
-| 单目运算符 | 名称 |    示例    | 分类 |
-|------------+------+------------+------|
-|    <c>     | <c>  |    <c>     | 双目 |
-|     +      | 加法 |   A=A+B    |      |
-|     -      | 减法 |   A=A-B    |      |
-|     /      | 除法 |   A=A/B    |      |
-|     %      | 取于 |    A%b     |      |
-|------------+------+------------+------|
-|     +      | 正号 |     +A     |      |
-|     -      | 负号 |     -A     | 单目  |
-|     ++     | 自增 | ++A or A-- |      |
-|     --     | 自减 | --A or A-- |      |
-|------------+------+------------+------|
+\end{verbatim}
+\end{enumerate}
 
 
 
 
 
+\subsection{运算符}
+\label{sec:orgf8d8497}
+
+
+\begin{center}
+\begin{tabular}{llll}
+tab & tab & tab & \\
+\hline
+单目运算符 & 名称 & 示例 & 分类\\
+\hline
+<c> & <c> & <c> & 双目\\
++ & 加法 & A=A+B & \\
+- & 减法 & A=A-B & \\
+\% & 取于 & A\%b & \\
+\hline
++ & 正号 & +A & \\
+- & 负号 & -A & 单目\\
+++ & 自增 & ++A or A-- & \\
+-- & 自减 & --A or A-- & \\
+\hline
+\end{tabular}
+\end{center}
 
 
 
 
-#+BEGIN_SRC C
+
+
+
+
+
+\begin{verbatim}
 #include<stdio.h>
 int main() {
  printf("hello world");
@@ -191,32 +233,31 @@ int main() {
 #+BEGIN_SRC java
 public class Test {
     public static void main(String[] args) {
-        long startTime1 = System.nanoTime();
-        for (int i = 0; i < 1000000; i++) {
+	long startTime1 = System.nanoTime();
+	for (int i = 0; i < 1000000; i++) {
 
-        }
-        System.out.println("i++ time(ms):" + Long.toString((System.nanoTime() - startTime1) / 1000));
-        System.out.println("i++ time(s):" + Long.toString((System.nanoTime() - startTime1) / 1000 / 1000));
+	}
+	System.out.println("i++ time(ms):" + Long.toString((System.nanoTime() - startTime1) / 1000));
+	System.out.println("i++ time(s):" + Long.toString((System.nanoTime() - startTime1) / 1000 / 1000));
 
-        long startTime2 = System.nanoTime();
-        for (int i = 0; i < 1000000; ++i) {
+	long startTime2 = System.nanoTime();
+	for (int i = 0; i < 1000000; ++i) {
 
-        }
-        System.out.println("++i time(ms):" + Long.toString((System.nanoTime() - startTime2) / 1000));
-        System.out.println("++i time(s):" + Long.toString((System.nanoTime() - startTime2) / 1000 / 1000));
+	}
+	System.out.println("++i time(ms):" + Long.toString((System.nanoTime() - startTime2) / 1000));
+	System.out.println("++i time(s):" + Long.toString((System.nanoTime() - startTime2) / 1000 / 1000));
     }
 
 
     }
 
 
-#+END_SRC
-
-#+RESULTS:
+\end{verbatim}
 
 
 
 
-[[~/Imager/1.jpg]]
-
-
+\begin{center}
+\includegraphics[width=.9\linewidth]{/home/aero/Imager/1.jpg}
+\end{center}
+\end{document}
