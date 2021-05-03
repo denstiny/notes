@@ -2,7 +2,8 @@
 _<2021-05-03 一>_
 
 
-[[/mnt/home/java.png]]
+[[https://sm.ms/delete/e6NLBb1KCpuVxQG4DX3yrlgSkt]]
+
 ** keymap
 #+begin_src cpp
 如果你是新手,不习惯默认的按键可以尝试这个
