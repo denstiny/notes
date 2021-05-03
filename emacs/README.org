@@ -1,0 +1,20 @@
+* Emacs笔记
+** 基础语法
+ #+BEGIN_SRC
+(+ 2 3) ; 2 + 3
+(setq my-name "zil") ; string my-name ="zil"
+(message my-name) ; 类似print(my-name)
+
+(defun my-func()
+    (interactive) ; 设置当前函数为接口
+    (message "hello,%s" my-name))
+(my-func) ; 定义函数
+(global-set-key (kbd "<f2>") 'my-func) ; 定义函数快捷键
+
+#+END_SRC
+
+** 快捷键
+#+BEGIN_SRC
+C-h m  列出当前buffer启动的mode
+C-h k  查看快捷键绑定
+#+END_SRC

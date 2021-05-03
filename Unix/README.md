@@ -8,6 +8,10 @@
 		* [进程环境](#进程环境)
 		* [<font size=5 color=blue><b>内存空间分配</b></font>](#font-size5-colorblueb内存空间分配bfont)
 		* [函数跳转](#函数跳转)
+			* [函数执行顺序](#函数执行顺序)
+			* [使用 `setjmp.h`](#使用-setjmph)
+		* [信号](#信号)
+			* [信号处理](#信号处理)
 
 <!-- vim-markdown-toc -->
 
@@ -104,3 +108,178 @@ int main( int argc, char *argv[] ) {
 
 ### 函数跳转
 
+#### 函数执行顺序
+> 函数正常的运行顺序
+```cpp
+
+static void b(void) {
+	printf("%s():Begin.\n",__FUNCTION__);
+	printf("%s():Call a().\n",__FUNCTION__);
+}
+static void a(void) {
+	printf("%s():Begin.\n",__FUNCTION__);
+	printf("%s():Call b().\n",__FUNCTION__);
+	b();
+	printf("%s():b() returned. \n",__FUNCTION__);
+	printf("%s():End.\n",__FUNCTION__);
+}
+int main(int argc,char **argv) {
+	printf("%s():Begin.\n",__FUNCTION__);
+	printf("%s():Call a().\n",__FUNCTION__);
+	a();
+	printf("%s():a() returned. \n",__FUNCTION__);
+	printf("%s():End.\n",__FUNCTION__);
+	/*
+		main -> a -|    return main --> main -> end
+				   |  		    	|
+				   | 		    	|
+				   -> b -> end b --> end a
+	*/
+	return 0;
+}
+```
+> `__FUNCTION__`当前函数
+<details>
+<summary>点击查看</summary>
+
+![20210413164857](https://i.loli.net/2021/04/13/gvwbfQGBZHyPxJm.png)
+
+</details>
+
+
+#### 使用 `setjmp.h`
+
+> 函数原型
+```c
+#include <setjmp.h>
+
+int setjmp(jmp_buf env);
+int sigsetjmp(sigjmp_buf env, int savesigs);
+
+void longjmp(jmp_buf env, int val);
+void siglongjmp(sigjmp_buf env, int val);
+```
+> 实例
+```cpp
+
+#include <cstdio>
+#include <csetjmp>
+#include <iostream>
+#include <cstdlib>
+/*
+	setjmp 跳转 
+*/
+
+static jmp_buf env;  // 存储上下文
+ void b(void) {
+	printf("%s():Begin.\n",__FUNCTION__);
+	printf("%s():Call a().\n",__FUNCTION__);
+}
+
+ void a(void) {
+	printf("%s():Begin.\n",__FUNCTION__);
+	printf("%s():Call b().\n",__FUNCTION__);
+	b();
+	longjmp(env,1);
+	printf("%s():b() returned. \n",__FUNCTION__);
+	printf("%s():End.\n",__FUNCTION__);
+}
+
+int main(int argc,char **argv) {
+	if(setjmp(env))
+		exit(1);
+		
+	printf("%s():Begin.\n",__FUNCTION__);
+	printf("%s():Call a().\n",__FUNCTION__);
+	a();
+	printf("%s():a() returned. \n",__FUNCTION__);
+	printf("%s():End.\n",__FUNCTION__);
+
+	/*
+		main -> a -|    return main --> main -> end
+				   |  			     	|
+				   | 			 	    |
+				   -> b -> end b --> end a
+	*/
+	return 0;
+}
+```
+
+<details>
+<summary>点击查看</summary>
+
+![20210413185103](https://i.loli.net/2021/04/13/87C3nbpKMQv5YzZ.png)
+
+</details>
+
+```txt
+首次调用时 `setjmp` 为 0, 由`longjmp `返回,则返回 `env`
+```
+### 信号
+
+`signal` 捕获信号
+
+```
+#include <algorithm>
+#include <cstdio>
+#include <iostream>
+#include <unistd.h>
+#include <cstdlib>
+#include <csignal>
+#include <sys/wait.h>
+using namespace std;
+void sig_init(int) {
+	printf("\nexit %d\n ",getpid());
+	exit(0);
+}
+int main(int argc,char **argv) {
+	if(signal(SIGINT, sig_init) == SIG_ERR) {
+		perror("signal error");
+		exit(0);
+	}
+	while (1) {
+		cout << "SIGNAL" << endl;
+		sleep(1);;
+	}
+	return 0;
+}
+```
+`signal(信号,处理)`
+
+#### 信号处理
+```C
+SIG_IGN //忽略信号
+SIGCHLD //子进程退出信号
+```
+
+```c
+
+void sig_init(int sig) {
+	printf("child to %d\n",sig);
+	wait(0);
+}
+
+
+void out(int i) {
+	for(int n = 0;n < i;n++) {
+		cout << getpid() << " to " << n << endl;
+		sleep(2);
+	}
+}
+
+int main(int argc,char **argv) {
+	if(signal(SIGCHLD, sig_init) == SIG_ERR) { // 处理子进程,子进程退出,则回首子进程
+		perror("signal error");
+		exit(0);
+	}
+
+	pid_t pid = fork();
+	if(pid == 0) {
+		out(10);
+	}if(pid > 0) {
+		out(100);
+	}
+
+	return 0;
+}
+```
