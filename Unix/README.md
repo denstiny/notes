@@ -53,7 +53,6 @@ main 函数返回一个整形值与用该值调用`exit`等价,于是在main函�
 等价  
 `return 0;`
 
-
 ```C
 #include<stdio.h>
 #include<stdlib.h>

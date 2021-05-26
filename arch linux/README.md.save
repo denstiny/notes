@@ -4,11 +4,6 @@
 * [This my arch linux  Learning notes](#this-my-arch-linux--learning-notes)
 	* [匹配需要需要配备码的蓝牙键盘](#匹配需要需要配备码的蓝牙键盘)
 	* [中文字符乱码](#中文字符乱码)
-	* [linux 网络共享](#linux-网络共享)
-		* [如果你用的的ADSL上网的](#如果你用的的adsl上网的)
-		* [如果你使用wifi上网的](#如果你使用wifi上网的)
-		* [创建没有密码的wifi](#创建没有密码的wifi)
-		* [如果你没有使用ADSL上网时(路由器LAN口直连)](#如果你没有使用adsl上网时路由器lan口直连)
 
 <!-- vim-markdown-toc -->
 
@@ -61,35 +56,6 @@ vim /etc/locale.gen
 locale-gen
 locale
 locale -a
-```
-
-## linux 网络共享
-
-1. 安装`create_ap`
-```sh
-yay -S create_ap
-```
-2. 创建`wifi`
-
-### 如果你用的的ADSL上网的
-```sh
-创建一个名字是wifiName，密码是wifiPasswd的热点
-sudo create_ap wlp3s0 ppp0 wifiName wifiPasswd
-```
-### 如果你使用wifi上网的
-```sh
-创建一个名字是wifiName，密码是wifiPasswd的热点
-sudo create_ap wlp3s0 wlp3s0 wifiName wifiPasswd
-```
-### 创建没有密码的wifi
-```sh
-创建一个名字是wifiName，没有密码的热点
-sudo create_ap wlp3s0 wlp3s0 wifiName
-```
-### 如果你没有使用ADSL上网时(路由器LAN口直连)
-```sh
-创建一个名字是wifiName，密码是wifiPasswd的热点
-sudo create_ap wlp3s0 enp4s0f2 wifiName wifiPasswd
 ```
 
 

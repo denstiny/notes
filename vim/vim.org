@@ -2,15 +2,41 @@
 _<2021-05-03 一>_
 
 
-[[https://sm.ms/delete/e6NLBb1KCpuVxQG4DX3yrlgSkt]]
+[[/mnt/home/java.png]]
 
+** vim Introduction to the
+
+_Vim是Vi IMproved的首字母缩写。它是由Bram Moolenaar编写的免费开源文本编辑器。 它于1991年首次针对UNIX类系统发布，其主要目标是为Vi编辑器提供增强功能。Vim被认为是克隆Vi编辑器。 像Vi一样，它也是以命令为中心的编辑器。学习Vim的一个优点是 - 它随处可用。 采用任何UNIX类系统，如Linux，Mac，HP-UX，AIX等等，默认情况下Vim是安装在系统中的。 Vim传统上没有GUI，但现在有一个名为gVim的独立安装程序，它可以提供GUI功能。//原文出自【易百教程】_
+_neovim是vim的升级版,完全支持vimscript语法_
 ** keymap
 #+begin_src cpp
+
+:普通模式
+                   +------------+                  
+                   |     k      |                  
+                   +------------+                  
+                         |                         
+  +---------+            |            +-----------+
+  |    h    |------------|------------|     l     |
+  +---------+            |            +-----------+
+                         |                         
+                         |                         
+                  +-------------+                  
+                  |      j      |                  
+                  +-------------+                  
+
+
 如果你是新手,不习惯默认的按键可以尝试这个
 "map a h
 "map s j
 "map d l
 "map w k
+                  w
+               a  +  d
+
+
+vim    ~/.vim/vimrc
+neovim ~/.config/nvim/init.vim
 #+end_src
 ** Plug-in
 *** [[https://github.com/junegunn/vim-plug][junegunn/vim-plug]]
@@ -18,6 +44,9 @@ _<2021-05-03 一>_
   #+begin_src sh
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+
+vim ~/.vim/autoload/plug.vim
+neovim ~/.config/nvim/autoload/plug.vim
   #+end_src
 *** [[https://github.com/puremourning/vimspector][puremourning/vimspector]]
 + 安装
@@ -42,7 +71,11 @@ Plug 'thinca/vim-quickrun'
 Plug 'skywind3000/asyncrun.vim'
   #+end_src
 *** [[https://github.com/preservim/nerdtree][preservim/nerdtree]]
-+ 安装 #+begin_src shell Plug 'preservim/nerdtree' Plug 'ryanoasis/vim-devicons' #+end_src
++ 安装
+  #+begin_src shell
+  Plug 'preservim/nerdtree'
+  Plug 'ryanoasis/vim-devicons'
+  #+end_src
 ** Configuration tutorial
 *** nerdtree configuration
 + 基础配置
@@ -236,6 +269,10 @@ let g:coc_snippet_next = '<C-k>'
     #+begin_src sh
 :CocInstall coc-tabnine
 #+end_src
++ coc-setting.json
+  #+begin_src json
+  "java.home": "/usr/lib/jvm/java-11-openjdk",
+  #+end_src
 *** vimspector configuration
 + 基础配置
 #+begin_src sh
@@ -459,7 +496,7 @@ nnoremap <silent><expr> <M-b> translator#window#float#has_scroll() ?
                             \ translator#window#float#scroll(0) : "\<M-f>"
 
         #+end_src
-
-
-
-
++ todo list
+  #+begin_src sh
+  :CocInstall coc-todolist
+  #+end_src
